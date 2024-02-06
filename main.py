@@ -10,7 +10,10 @@ engine = create_engine(f'sqlite:///{db_path}')
 def run_query(sql_text):
     output = ""
     with engine.connect() as connection:
-        result = connection.execute(text(sql_text))
+        try:
+            result = connection.execute(text(sql_text))
+        except Exception as e:
+            result = "An exception occurred: " + str(e)
     for row in result:
         output += str(row)
     return output
